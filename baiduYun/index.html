@@ -1,0 +1,806 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<title>百度网盘（仿）</title>
+		<script src="http://api.51ditu.com/js/ajax.js"></script>
+		<style type="text/css">
+			*{
+				padding: 0;
+				margin: 0;
+				box-sizing: border-box;
+				font: "微软雅黑";
+			}
+			body{
+				background-color:#000;
+			}
+			li{
+				list-style: none;
+			}
+			a{
+				text-decoration: none;
+				display: block;
+			}
+			.container{
+				position: relative;
+				width: 100%;
+				height: auto;
+				/*margin-top: 10px;*/
+			}
+			.header{
+				position: absolute;
+				top: -60px;
+				left: 0;
+				width: 100%;
+				height: 60px;
+				height: auto;
+				background-color: #37325a;
+				background-image: url(img/1.png);
+				background-position: top left;
+				background-repeat: no-repeat;
+			}
+			.leftNav>li{
+				float: left;
+				width: 90px;
+				height: 60px;
+			}
+			.leftNav>li:nth-child(1){
+				margin-left: 190px;
+			}
+			.leftNav>li .active{
+				border-bottom: 2px solid #fff;
+			}
+			.leftNav>li a{
+				color: #fff;
+				font-size: 18px;
+				display: block;
+				width: 36px;
+				/*height: 40px;*/
+				margin-top: 10px;
+				margin-left: 27px;
+				line-height: 40px;
+			}
+			.rightNav{
+				position: absolute;
+				top: 0;
+				left: 775px;
+			}
+			.rightNav li{
+				float: left;
+				/*margin-right: 30px;*/
+				/*height: 60px;*/
+				/*cursor: pointer;*/
+			}
+			/*.rightNav li:hover{
+				opacity: 0.6;
+			}*/
+			.rightNav li a{
+				width: 100px;
+				height: 30px;
+				text-align: center;
+				line-height: 30px;
+				color: #000;
+				background-color: #6A5ACD;
+				border-radius: 10px;
+				margin-right: 10px;
+				margin-top: 15px;
+				display: block;
+				float: left;
+				cursor: pointer;
+				opacity: 0.7;
+			}
+			.rightNav li a:hover{
+				opacity: 1;
+			}
+			.rightNav li:nth-child(5){
+				margin-left: 40px;
+			}
+			
+			/*.rightNav li:nth-child(2):hover{
+				background-image: url(img/4.png);
+				opacity: 1;
+			}*/
+			/*.rightNav li a{
+				color: #fff;
+				/*height: 30px;*/
+				/*width:80px;
+				margin-top: 15px;
+				line-height: 30px;
+				text-align: center;
+				cursor: pointer;
+			}*/
+			.rightNav li:nth-child(1){
+				margin-right: 5px;
+			}
+			.rightNav li:nth-child(2)>img{
+				position: absolute;
+				top: 60px;
+				left: -160px;
+				display: block;
+				width:242px;
+				height:313px;
+				border-bottom: 1px solid lightgray;
+				opacity: 0;
+				z-index: 2;
+				transition: opacity 1s;
+				-webkit-transition: opacity 1s;
+				-moz-transition: opacity 1s;
+			}
+			.rightNav li:nth-child(2):hover>img{
+		opacity: 1;
+			}
+			.vip{
+				background-color: #ffd821;
+				color: #d07d19;
+				border-radius: 10px;
+			}
+		.main{
+		width: 100%;
+		height: 600px;
+		background-color: #37325a;
+		position: absolute;
+		left: 0;
+		top: 60px;
+		}
+			.sideBar{
+				position: absolute;
+				top: 0;
+				left: 0;
+				width: 190px;
+				height: 565px;
+				background-color: #37325a;
+			}
+			.content{
+				position: absolute;
+				top: 0;
+				left: 190px;
+				width: 1175px;
+				height: 600px;
+				background-color: #fff;
+				border-radius: 5px;
+			}
+			.sideBar_nav li{
+				width: 190px;
+				height: 40px;
+				cursor: pointer;
+			}
+			.sideBar_nav li a{
+				width: 190px;
+				height: 40px;
+				line-height: 40px;
+				padding-left: 45px;
+				color: #fff;
+			}
+			.sideBar_nav li a:hover{
+				background-color: #57547e;
+			}
+			/*.sideBar_nav li a:nth-child(1){
+				bck
+			}*/
+		.content_header{
+		height: 80px;
+		width: 1152px;
+		padding: 20px;
+		}
+		.content_header ul>li{
+		float: left;
+		width:110px;
+		height: 36px;
+		margin-right: 10px;
+		border: 1px #c1bce0 solid;
+				border-radius: 5px;
+				line-height: 36px;
+		text-align: center;
+				color: #574ab8;
+				font-size: 14px;
+				cursor: pointer;
+		}
+			.content_header ul>li a{
+				width:110px;
+		height: 36px;
+		line-height: 36px;
+		text-align: center;
+				color: #574ab8;
+				font-size: 14px;
+				cursor: pointer;
+				opacity: 0.8;
+			}
+			.content_header ul>li a:hover{
+				opacity: 1;
+			}
+			.content_header ul>li .active{
+				background-color: #574ab8;
+				color: #fff;
+			}
+			.content_header ul>li:nth-child(4){
+				position: relative;
+			}
+			.content_header ul>li:nth-child(4) ul{
+				position: absolute;
+				top: 35px;
+				left: -1px;
+				width:110px;
+		height:66px;
+		border-bottom-left-radius: 5px;
+		border-bottom-right-radius: 5px;
+		border: 1px #c1bce0 solid;
+		border-top: none;
+		display: none;
+			}
+			.content_header ul>li:nth-child(4) ul>li{
+				border: none;
+				width: 110px;
+				height: 33px;
+			}
+			.content_header ul>li:nth-child(4):hover{
+				border-bottom-left-radius: 0px;
+		border-bottom-right-radius: 0px;
+			}
+			.content_header ul>li:nth-child(4):hover ul{
+				display: block;
+			}
+			/*.content_header ul>li:nth-child(4):hover ul li:hover{
+			}*/
+		.content_header_right{
+		/*float: left;*/
+		margin-left: 800px;
+		}
+			.content_header_right input{
+				outline: none;
+				width: 240px;
+				height: 30px;
+				padding: 4px;
+				margin-top: 4px;
+				border-radius: 15px;
+				background-color: #f1f2f4;
+				background-image: url(img/10.png);
+				background-position: 200px 0px;
+				background-repeat: no-repeat;
+				margin-right: 4px;
+			}
+			.content_header_right img{
+				display: block;
+				float: right;
+				margin-top: 6px;
+				margin-right: 4px;
+			}
+			.content_main{
+				margin-top: -20px;
+				padding: 15px;
+			}
+			.content_main_top{
+				height: 80px;
+			}
+			.content_main_top p{
+				font-size: 12px;
+				opacity: 0.7;
+			}
+			.content_main_top p:nth-child(1){
+				float: left;
+			}
+			.content_main_top p:nth-child(2){
+				float: right;
+			}
+			.content_main_top input{
+		margin-top: 40px;
+		margin-left: -50px;
+		/*font-size: 12px;
+		opacity: 0.7;*/
+			}
+			.content_main_top span{
+			font-size: 12px;
+		opacity: 0.7;
+		margin-top: -6px;
+		margin-left: 4px;
+			}
+			.content_main_main div{
+				float: left;
+				margin-right:8px;
+				padding-top: 30px;
+				text-align: center;
+				width: 120px;
+				height: 130px;
+				cursor: pointer;
+			}
+			.content_main_main div:hover{
+				background-color: #f1f5fa;
+				border-radius: 5px;
+			}
+			.content_main_main span{
+				font-size: 12px;
+				opacity: 0.7;
+				cursor: pointer;
+			}
+			.menu{
+				position: fixed;
+				top: 300px;
+				left: 1100px;
+				width: 140px;
+				height: 155px;
+				border: 1px solid gray;
+				border-radius: 5px;
+				opacity: 0;
+			}
+			.menu>ul{
+				width: 140px;
+				height: 155px;
+			}
+			.menu>ul>li{
+				width: 138px;
+				height: 25px;
+				/*padding-left: 20px;*/
+				/*line-height: 25px;*/
+			}
+			.menu>ul>li:nth-child(1),.menu>ul>li:nth-child(2){
+				padding-left: 20px;
+				line-height: 25px;
+				color: #000;
+				opacity: 0.7;
+				font-size: 14px;
+				cursor: pointer;
+				position: relative;
+			}
+			.menu>ul>li>a:hover,.menu>ul>li:nth-child(1):hover,.menu>ul>li:nth-child(2):hover{
+				background-color: blue;
+			}
+			.menu>ul>li>a{
+				width: 138px;
+				height: 25px;
+				color: #000;
+				opacity: 0.7;
+				font-size: 14px;
+				padding-left: 20px;
+				line-height: 25px;
+			}
+			.menu>ul>li:nth-child(1) ul{
+		position: absolute;
+		top: 0px;
+		left:139px;
+		width: 90px;
+		height: 50px;
+		border: 1px solid gray;
+		display: none;
+			}
+			.menu>ul>li:nth-child(1):hover ul{
+		display: block;
+			}
+			.menu>ul>li:nth-child(1) ul li{
+				width: 90px;
+				height: 25px;
+			}
+			.menu>ul>li:nth-child(1) ul li a{
+				width: 90px;
+				height: 25px;
+				color: #000;
+				font-size: 14px;
+				padding-left: 20px;
+				line-height: 25px;
+			}
+			.menu>ul>li:nth-child(1) ul li a:hover{
+				background-color: blue;
+			}
+			.menu>ul>li:nth-child(2) ul{
+			position: absolute;
+			top: 0px;
+			left:139px;
+			width: 90px;
+			height: 75px;
+			border: 1px solid gray;
+			display: none;
+			}
+			.menu>ul>li:nth-child(2):hover ul{
+			display: block;
+			}
+			.menu>ul>li:nth-child(2) ul li{
+				width: 90px;
+				height: 25px;
+			}
+			.menu>ul>li:nth-child(2) ul li a{
+				width: 90px;
+				height: 25px;
+				color: #000;
+				font-size: 14px;
+				padding-left: 20px;
+				line-height: 25px;
+			}
+			.menu>ul>li:nth-child(2) ul li a:hover{
+				background-color: blue;
+			}
+			/*日历*/
+			.calendar{
+				position: fixed;
+				bottom: 15px;
+				right: 18px;
+				width: 290px;
+				height: 338.5px;
+				border-radius: 5px;
+				border: 2px solid #574ab8;
+			}
+			.calendar-header{
+				height: 60px;
+				position: relative;
+				text-align: center;
+				border-bottom: 1px solid #574ab8;
+			}
+			.month{
+			font-size: 25px;
+			font-weight: bold;
+			padding: 6px 0 0 0;
+			color: gray;
+			}
+			.year{
+				font-size: 15px;
+				color: gray;
+			}
+			.prev{
+			position: absolute;
+			top: 20px;
+			left: 0;
+			width: 60px;
+			height: 20px;
+			background: url(prev.png) no-repeat 10% 30%;
+		}
+		.next{
+			position: absolute;
+			top: 20px;
+			right: 0;
+			width: 60px;
+			height: 20px;
+			background: url(next.png) no-repeat 30% 50%;
+		}
+		.calendar-main{
+			padding: 4px 8px;
+		}
+		.body-list ul{
+			width:100%;
+			font-family:arial;
+			font-weight:bold;
+			font-size:14px;
+		}
+		.body-list ul li{
+			width:14.28%;
+			height:38.5px;
+			line-height:38.5px;
+			list-style-type:none;
+			display:block;
+			box-sizing:border-box;
+			float:left;
+			text-align:center;
+			margin: 0;
+		}
+		.lightgrey{
+			color:#a8a8a8;
+		}
+		.green{
+			color:#6ac13c;
+		}
+		.greenbox{
+			border:1px solid #6ac13c;
+			background:#e9f8df;
+			border-radius: 50%;
+		}
+		.darkgrey{
+			color:#565656;
+		}
+		</style>
+	</head>
+	<body>
+		 <div id="container" class="container">
+			<div class="header" id="header">
+				<ul class="leftNav">
+					<li><a href="#" class="active">网盘</a></li>
+					<li><a href="#">分享</a></li>
+					<li><a href="#">更多</a></li>
+				</ul>
+				<ul class="rightNav">
+					<li><a href="#">登录</a></li>
+					<li><a href="register.html">注册</a></li>
+					<li><a href="#">客户端下载</a></li>
+					<li><a href="#" class="vip">会员中心</a></li>
+					<li><img src="img/6.png"></li>
+					<li><img src="img/7.png"></li>
+				</ul>
+			</div>
+
+			<div class="main">
+				<div class="sideBar">
+					<ul class="sideBar_nav">
+						<li><a href="#">全部文件</a></li>
+						<li><a href="#">图片</a></li>
+						<li><a href="#">文档</a></li>
+						<li><a href="#">视频</a></li>
+						<li><a href="#">种子</a></li>
+						<li><a href="#">音乐</a></li>
+						<li><a href="#">其他</a></li>
+						<li><a href="#">我的分享</a></li>
+						<li><a href="#">回收站</a></li>
+					</ul>
+				</div>
+
+				<div class="content" id="content">
+					<div class="content_header">
+						<ul>
+							<li><a href="#" class="active">上传</a></li>
+							<li><a href="#">新建文件夹</a></li>
+							<li><a href="#">离线下载</a></li>
+							<li>我的设备
+								<ul>
+									<li><a href="#">推送任务列表</a></li>
+									<li><a href="#">添加设备</a></li>
+								</ul>
+							</li>
+						</ul>
+						<div class="content_header_right" id="content_header_right">
+							<input type="text" name="" placeholder="搜索您的文件">
+							<img src="img/13.png">
+							<img src="img/11.png">
+						</div>
+					</div>
+
+					<div class="content_main">
+
+						<div class="content_main_top">
+							<p>全部文件</p>
+							<p>已全部加载，共3个</p>
+							<input type="radio" name="" id="check"><span>全选</span></input>
+						</div>
+
+						<div class="content_main_main" id="content_main_main">
+							<div>
+								<img src="img/14.png"><br>
+								<span>计算机三级</span>
+							</div>
+							<div>
+								<img src="img/14.png"><br>
+								<span>ps</span>
+							</div>
+							<div>
+								<img src="img/14.png"><br>
+								<span>web前端</span>
+							</div>
+						</div>
+
+					</div>
+
+					<div class="calendar">
+						<div class="calendar-header">
+							<h1 class="month green" id="month">month</h1>
+							<h1 class="year green" id="year">year</h1>
+							<a href="#" id="prev" class="prev"><</a>
+							<a href="#" id="next" class="next">></a>
+							</h1>
+						</div>
+
+						<div class="calendar-main">
+							<div class="body-list lightgrey">
+								<ul>
+									<li>MON</li>
+									<li>TUE</li>
+									<li>WED</li>
+									<li>THU</li>
+									<li>FRI</li>
+									<li>SAT</li>
+									<li>SUN</li>
+								</ul>
+							</div>
+							<div class="body-list">
+								<ul id="days"></ul>
+						    </div>
+					    </div>
+                    </div>
+				
+			    </div>
+		    </div>
+	    </div>
+
+		<div id="menu" class="menu">
+			<ul>
+				<li>查看
+					
+					<ul>
+						<li><a href="#">列表</a></li>
+						<li><a href="#">缩略图</a></li>
+					</ul>
+					
+				</li>
+				<li>排序方式
+					<ul>
+						<li><a href="#">名称</a></li>
+						<li><a href="#">大小</a></li>
+						<li><a href="#">日期</a></li>
+					</ul>
+					
+				</li>
+				<li><a href="#">注册</a></li>
+				<hr>
+				<li><a href="#">重新加载页面</a></li>
+				<li><a href="#">新建文件夹</a></li>
+				<hr>
+				<li><a href="#">会员中心</a></li>
+			</ul>
+		</div>
+	<script type="text/javascript">
+	//header部分动态滑下
+	var header=document.getElementById("header");
+	var h=-60;
+	function addTop(){
+	if(h<0){
+		h=h+5;
+		header.style.top=h+"px";
+	}
+	else{
+		return;
+	}
+	}
+	setInterval(addTop,30);
+	//最右边
+		var content_header_right=document.getElementById("content_header_right");
+		var content_header_right_img=content_header_right.getElementsByTagName("img")[0];
+		// (content_header_right_img.src);
+		content_header_right_img.onclick=function(){
+			if(this.src.indexOf("13")>0){
+				this.src="img/12.png";
+			}
+			else{
+				this.src="img/13.png";
+			}
+		}
+	//全选
+		var content_main_main=document.getElementById("content_main_main");
+		var file_div=content_main_main.getElementsByTagName("div");
+		var check=document.getElementById("check");
+		if(check.checked==true&&check.type=="radio"){
+			alert("haha");
+		}
+		//右键菜单
+		var content=document.getElementById("content");
+		var menu=document.getElementById("menu");
+		function showMenu(e){
+			var evt = window.event || arguments[0];
+			/*鼠标位置到容器右边的距离*/
+			var rightEdge=content.offsetLeft+content.offsetWidth-evt.clientX;
+			// alert(rightEdge);
+			var bottomEdge=content.offsetTop+content.offsetHeight-evt.clientY;
+			/*如果从鼠标位置到容器右边的距离小于菜单的宽度，就定位菜单的左坐标（Left）为当前鼠标位置向左一个菜单宽度*/
+			if(rightEdge<menu.offsetWidth){
+				menu.style.left=evt.clientX-menu.offsetWidth+"px";
+			}
+			else{
+				menu.style.left=evt.clientX+"px";
+			}
+			if(bottomEdge<menu.offsetHeight){
+				menu.style.top=evt.clientY-menu.offsetHeight+"px";
+			}
+			else{
+				menu.style.top=evt.clientY+"px";
+			}
+			menu.style.opacity=1;
+			LTEvent.addListener(content,"contextmenu",LTEvent.cancelBubble);//消除自带的右键功能
+		}
+		/*隐藏菜单*/
+	function hideMenu() {
+	menu.style.opacity = 0;
+	}
+		LTEvent.addListener(content,"contextmenu",LTEvent.cancelBubble);//消除自带的右键功能
+	LTEvent.addListener(content,"contextmenu",showMenu);
+	LTEvent.addListener(document,"click",hideMenu);
+	//重新载入页面
+	var lis=menu.getElementsByTagName("li");
+	// alert(lis.length);//11
+	lis[8].onclick=function(){
+	window.location.reload();
+	}
+	//用户注册
+	lis[7].onclick=function(){
+	window.location.href="register.html";
+	}
+	lis[9].onclick=function(){
+	var newDiv=document.createElement("div");
+	var newImg=document.createElement("img");
+	newImg.src="img/14.png";
+	var newSpan1=document.createElement("span");
+	var newSpan2=document.createElement("span");
+	var newSpan3=document.createElement("span");
+	var newBr=document.createElement("br");
+	newSpan1.innerHTML="新建文件夹";
+	newSpan1.style.border="2px solid gray";
+	newSpan1.style.marginRight="4px";
+	newSpan2.innerHTML="是";
+	newSpan2.style.border="2px solid gray";
+	newSpan2.style.marginRight="4px";
+	newSpan3.innerHTML="否";
+	newSpan3.style.border="2px solid gray";
+	newSpan3.style.marginRight="4px";
+	newDiv.appendChild(newImg);
+	newDiv.appendChild(newBr);
+	newDiv.appendChild(newSpan1);
+	newDiv.appendChild(newSpan2);
+	newDiv.appendChild(newSpan3);
+	content_main_main.appendChild(newDiv);
+	newSpan2.onclick=function(){
+		this.style.display="none";
+		newSpan3.style.display="none";
+		newSpan1.style.border="block";
+	}
+	newSpan3.onclick=function(){
+		newDiv.style.display="none";
+	}
+	}
+
+	//日历
+	var year=document.getElementById("year");
+		var month=document.getElementById("month");
+		var days=document.getElementById("days");
+		var prev=document.getElementById("prev");
+		var next=document.getElementById("next");
+		var pin_month=[31,28,31,30,31,30,31,31,30,31,30,31];
+		var run_month=[31,29,31,30,31,30,31,31,30,31,30,31];
+		var month_name = ["January","Febrary","March","April","May","June","July","Auguest","September","October","November","December"];
+		var nowDate=new Date();
+		var nowYear=nowDate.getFullYear();
+		var nowMonth=nowDate.getMonth();
+		var nowDay=nowDate.getDate();
+         
+         resetDate();
+         
+		prev.onclick=function(){
+			nowMonth--;
+			if(nowMonth<0){
+				nowMonth=11;
+				nowYear--;
+			}
+			resetDate();
+		}
+		next.onclick=function(){
+			nowMonth++;
+			if(nowMonth>11){
+				nowMonth=0;
+				nowYear++;
+			}
+			resetDate();
+		}
+
+		function resetDate(){
+			var totalDay=getDays(nowMonth,nowYear);//获取该月的天数
+			// alert(totalDay)
+			var firstDay=getFirst(nowMonth,nowYear);//获取该月的第一天是星期几
+			var str="";
+			var myClass;
+			for(var i=1;i<firstDay;i++){
+				str+="<li></li>";
+			}
+			for(var i=1;i<=totalDay;i++){
+				if((i<nowDay&&nowMonth==new Date().getMonth()&&nowYear==new Date().getFullYear())||(nowYear<new Date().getFullYear())||(nowYear<new Date().getFullYear()&&nowMonth<new Date().getMonth())){
+                   myClass=" class='lightgrey'";//当该日期在今天之前时，以浅灰色字体显示
+				}
+				else if(i==nowDay&&nowMonth==new Date().getMonth()&&nowYear==new Date().getFullYear()){
+				   myClass=" class='green greenbox'";//当该日期是当天时，以绿色背景突出显示
+				}
+				else{
+					myClass = " class='darkgrey'";//当该日期在今后之后时，以深灰字体显示
+				}
+				str+="<li"+myClass+">"+i+"</li>";
+			}
+			days.innerHTML=str;
+			year.innerHTML=nowYear;
+			month.innerHTML=month_name[nowMonth];
+
+		}
+
+		function getDays(m,y){
+			if(y%4==0&&y%100!=0||y%400==0){
+				return run_month[m];
+			}
+			else{
+				return pin_month[m];
+			}
+		}
+
+		function getFirst(m,y){
+			var newDay=new Date(y,m,1);
+			return (newDay.getDay());
+		}
+	
+	</script>
+</body>
+</html>

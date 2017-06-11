@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>小姐姐的小作品</title>
+	<script src="js/jquery-1.11.2.min.js"></script>
+	<script type="text/javascript" src="js/index.js"></script>
+	<link rel="stylesheet" type="text/css" href="css/reset.css">
+	<link rel="stylesheet" type="text/css" href="css/nav.css">
+	<link rel="stylesheet" type="text/css" href="css/index.css">
+</head>
+<body>
+    <video autoplay  src="music/hahaha.mp3" width=0  height=0></video>
+	<div class="main-wrap">
+		<header>
+			<nav>
+			    <div class="photo"></div>
+				<div class="logo">小姐姐</div>
+				<ul class="navbar" id="nav">
+					<li><a>首页</a></li>
+					<li><a href="work.html">作品</a></li>
+					<li><a href="http://blog.csdn.net/lml19950827">博客</a></li>
+					<li class="bg" id="bg"></li>
+				</ul>
+			</nav>
+
+			<div class="banner">
+				<div class="inner-banner">
+					<h1>小姐姐</h1>
+					<hr class="hr1 hr">
+					<p class="sub-heading">要好好努力多挣钱，才养得起自己这个爱吃的胃，爱玩儿的心，爱逛爱买的习惯！</p>
+					<button>养活我</button>
+					<div class="more">
+						more
+					</div>
+				</div>
+			</div>
+
+		</header>
+		<div class="content">
+			
+			<section class="blue-section">
+				<div class="inner-blue-section">
+					<h2>城南花已开</h2>
+					<hr class="hr2 hr">
+					<p class="sub-heading">酒醒只在花前坐，酒醉还来花下眠;半醒半醉日复日，花落花开年复年。</p>
+					<div class="icon-group">
+						<img src="images/flower1.png" class="icon" width="160px" height="160px">
+						<img src="images/flower2.png" class="icon" width="160px" height="160px">
+						<img src="images/flower3.png" class="icon" width="160px" height="160px">
+						<img src="images/flower4.png" class="icon" width="160px" height="160px">
+					</div>
+				</div>
+			</section>
+
+			
+			<section class="gray-section">
+				
+				<div class="article-preview">
+	              <div class="img-section">
+	                <img src="images/me2.jpg" alt="" width="608px" height="400px">
+	              </div>
+                  <div class="text-section">
+	                <h2>等天蓝去看海</h2>
+	                <div class="sub-heading">...</div>
+	                <p>...........</p>
+	              </div>
+                </div>
+
+                <div class="article-preview">
+	              <div class="text-section">
+	                <h2>等天蓝去看海</h2>
+	                <div class="sub-heading">...</div>
+	                <p>...........</p>
+	              </div>
+                  <div class="img-section">
+	                <img src="images/me7.jpg " alt="" width="608px" height="400px">
+	              </div>
+                </div>
+
+                <div class="article-preview">
+	              <div class="img-section">
+	                <img src="images/me5.jpg" alt="" width="608px" height="400px">
+	              </div>
+                  <div class="text-section">
+	                <h2>等天蓝去看海</h2>
+	                <div class="sub-heading">...</div>
+	                <p>............</p>
+	              </div>
+                </div>
+
+			</section>
+
+
+            <!-- 右侧导航条 -->
+			<section class="toolbar">
+			    <a href="javascript:;" class="toorbar-item toorbar-item-weixin">
+				   <span class="toorbar-layer"></span>
+				</a>
+
+				<a href="javascript:;" class="toorbar-item toorbar-item-feedback"></a>
+
+				<a href="javascript:;" class="toorbar-item toorbar-item-app">
+					<span class="toorbar-layer"></span>
+				</a>
+
+				<a href="javascript:;" class="toorbar-item toorbar-item-top" id="toTop"></a>
+            </section>
+
+
+		</div>
+
+		<footer>
+			<div class="share-group" id="share">
+	            <span><img class="image" src="images/share1.png" data-title="GITHUB"></span>
+	            <span><img class="image" src="images/share2.png" data-title="TEITTER"></span>
+	            <span><img class="image" src="images/share3.png" data-title="FACEBOOK"></span>
+	            <span><img class="image" src="images/share4.png" data-title="RSS"></span>
+	            <div class="tip">
+	                <em></em>
+                    <span></span>
+	            </div>
+            </div>
+
+	          <div class="copy">
+	            © 2017 武汉科技大学 小姐姐
+	          </div>
+		</footer>
+	</div>
+	<script src="js/jquery-1.11.2.min.js"></script>
+	<script type="text/javascript" scr="share.js"></script>
+	<script type="text/javascript">
+	 
+
+// 底部分享
+    $(function(){
+    	$(".image").hover(function(){
+    		var title=$(this).attr("data-title");
+    		$(".tip em").text(title);
+    	    var pos=$(this).offset().left-500;
+    	    var dis=($(".tip").outerWidth()-$(this).outerWidth())/2;
+    	    var f=pos-dis;
+    	    $(".tip").css({"left":f+"px"}).animate({"top":-90,"opacity":1},300);
+    	},function(){
+    		$(".tip").animate({"top":-120,"opacity":0},300);
+    	})
+    })
+
+
+	</script>
+</body>
+</html>

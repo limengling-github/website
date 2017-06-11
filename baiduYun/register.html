@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<title>表单</title>
+		<style type="text/css">
+			body{
+				background-color: #37325a;
+				font-family: "palatino linotype",serif;
+			}
+			.container{
+				width: 600px;
+				height: 600px;
+				margin: 10px auto;
+			}
+			fieldset{
+				margin-top: 15px;
+				padding: 10px;
+			}
+			h1{
+				margin-bottom: 0px;
+			}
+			em{
+				font-weight: bold;
+				font-style: normal;
+				color: #f00;
+			}
+			input:focus{
+				background-color: #eaeaea;
+			}
+			legend {
+			padding: 0px 3px;
+			font-weight: bold;
+			font-variant: small-caps;
+			}
+			label {
+			width: 110px;
+			display: inline-block;
+			vertical-align: top;
+			margin: 6px;
+			}
+			input:required{
+			background-color: lightyellow;
+			
+			}
+			input[type=checkbox]{
+			width: 249px;
+			}
+			input[type=submit]{
+				width: 30px;
+			}
+			span{
+				margin-left: 8px;
+			}
+			.color1{
+				color: #ccc;
+			}
+			.color2{
+				color: black;
+			}
+			.color3{
+				color: red;
+			}
+			.color4{
+				color: green;
+			}
+		</style>
+	</head>
+	<body>
+	    <div class="container" id="container">
+			<h1>欢迎用户注册，请注意格式规范！</h1>
+			<form id="form1" action="#" onsubmit="return regs('click')">
+				<!-- 个人信息表 -->
+				<fieldset>
+					<legend>个人信息</legend>
+					<label for="username" >用户名<em>*</em></label>
+					<input type="" name="username" id="name" placeholder="" required><span class="color1">用户名不能为空</span></br>
+					<label for="telephone">电话<em>*</em></label>
+					<input type="" name="telephone" id="telephone" placeholder="" required><span class="color1">电话不能为空</span></br>
+					<label for="email">邮箱<em>*</em></label>
+	                <input id="email" type="email" name="email" required><span class="color1">邮箱不能为空</span><br>
+	                <label for="password">密码<em>*</em></label>
+	                <input type="password" name="password" required><span class="color1">密码不能为空</span><br>
+	                <label for="againPassword">确认密码<em>*</em></label>
+	                <input type="password" name="againPassword" required><span class="color1">确认密码不能为空</span>
+				</fieldset>
+				<p><input type="button" name="" value="提交" id="button"></p>
+			</form>
+	    </div>	
+		<script type="text/javascript">
+            onload = regs;
+            var total=0;
+
+			function getSpan(obj){
+                if (obj.nextSibling.nodeName != 'SPAN'){
+                getSpan(obj.nextSibling);
+
+			    } else {
+
+			        return obj.nextSibling;
+
+			    }
+			}
+
+
+
+			function check(obj,info,fun,click){
+				var sp=getSpan(obj);
+				obj.onfocus=function(){
+					sp.innerHTML=info;
+					sp.className="color2";
+				}
+
+				obj.onblur=function(){
+					if(fun(this.value)){
+						sp.innerHTML="输入正确！";
+						sp.className="color4";
+						total++;
+						// console.log(total);
+					}
+					else{
+						sp.innerHTML=info;
+						sp.className="color3";
+					}
+				}
+
+				if(click=='click'){
+					obj.onblur();
+				}
+			}
+
+
+			function regs(click){
+                var username=document.getElementsByName("username")[0];
+                var telephone=document.getElementsByName("telephone")[0];
+                var email=document.getElementsByName("email")[0];
+                var password=document.getElementsByName("password")[0];
+                var againPassword=document.getElementsByName("againPassword")[0];
+                
+
+
+                check(username,"用户名的长度在3-20之间",function(val){
+                    if (val.match(/^\S+$/) && val.length >=3 && val.length <=20){
+                    	return true;
+                    }
+                    else{
+                    	return false;
+                    }
+                },click);
+
+                check(telephone,"电话为11位数字",function(val){
+                    if(val.match(/^[0-9]+$/)&&val.length==11){
+                    	return true;
+                    }
+                    else{
+                    	return false;
+                    }
+                },click);
+
+                check(email,"请按邮箱规则输入",function(val){
+                    if(val.match(/\w+@\w+\.\w/)){
+                    	return true;
+                    }
+                    else{
+                    	return false;
+                    }
+                },click);
+
+                check(password,"密码必须在6-20位之间",function(val){
+                    if (val.match(/^\S+$/) && val.length >= 6 && val.length <=20){
+                    	return true;
+                    }
+                    else{
+                    	return false;
+                    }
+                },click);
+
+                check(againPassword,"确认密码必须与密码相同",function(val){
+                    if (val.match(/^\S+$/) && val.length >=6 && val.length <=20 && val == password.value){
+                    	return true;
+                    }
+                    else{
+                    	return false;
+                    }
+                },click);
+
+                var container=document.getElementById("container");
+                document.getElementById("button").onclick=function(){
+                	var info=document.createElement("p");
+                	info.style.fontWeight="bold";
+                	if(total==5){
+                		info.innerHTML="注册成功，2秒后将跳转到首页！";
+                		info.style.color="green";
+                		container.appendChild(info);
+                		setInterval(function(){
+                			window.location.href="index.html";
+                		},2000);
+                	}
+                	else{
+                		info.innerHTML="注册失败，请2秒后重新注册！";
+                		info.style.color="red";
+                		container.appendChild(info);
+                		setInterval(function(){
+                			window.location.reload();
+                		},2000);
+                	}
+                }
+
+			}
+		</script>
+	</body>
+</html>

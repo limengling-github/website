@@ -1,0 +1,19 @@
+* {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-family: 'Inconsolata', monospace;
+	box-sizing: border-box;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section {
+	display: block;
+}
+ol, ul {
+	list-style: none;
+}
+a{
+	text-decoration: none;
+}
+

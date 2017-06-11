@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style type="text/css">
+		*{
+			margin: 0;
+			padding: 0;
+			box-sizing: border-box;
+		}
+		body{
+			background-color: #eee;
+		}
+    
+	    .box {
+	        width: 482px;
+	        margin: 0 auto;
+	    }
+	    
+	    .box .main {
+	        float: left;
+	        border: 1px solid #ccc;
+	        background-color: #000;
+	    }
+	    
+	    .box .info {
+	        line-height: 60px;
+	    }
+	    
+	    .box .info p {
+	        float: left;
+	        margin-right: 20px;
+	        /*background-color: #000;*/
+	        opacity: 0.7;
+	        /*border-radius: 10px;*/
+	        /*color: red;*/
+	        /*height: 30px;*/
+	        /*line-height: 30px;*/
+	        font-weight: bold;
+	    }
+	    
+	    .main .row {
+	        overflow: hidden;
+	    }
+	    
+	    .main .col,
+	    .main .active {
+	        float: left;
+	        width: 20px;
+	        height: 20px;
+	    }
+	    
+	    .main .active {
+	        background: red;
+	    }
+		
+		h1{
+			font-style: italic;
+			color: #000;
+			opacity: 0.7;
+		}
+		input{
+			width: 60px;
+			height: 30px;
+			background-color: #000;
+			opacity: 0.7;
+			border-radius: 10px;
+			margin-top: -5px;
+			color: #fff;
+			text-align: center;
+			outline: none;
+			cursor: pointer;
+		}
+		input:hover{
+			opacity: 1;
+		}
+		span{
+			color: red;
+		}
+	</style>
+</head>
+<body>
+	<div class="box">
+		<h1>快来玩贪吃蛇吧！</h1>
+		<div class="info">
+			<p class="text">您的分数：<span id="score">0</span>分</p>
+			<p>按[上下左右]方向键吃虫</p>
+			<input type="button" name="" id="start" value="开始游戏">
+		</div>
+		<div class="main" id="map">
+		</div>
+	</div>
+	<script type="text/javascript">
+      var map=document.getElementById('map');
+      var oStart=document.getElementById('start');
+         map.innerHTML = '';
+
+        var nRow = 20, //行
+            nCol = 20, //列
+            g = 3, //蛇默认蛇身长度
+            x = 0, //蛇头在哪一行
+            y = g - 1, //蛇头在那一列
+            foodX = 0,
+            foodY = 0; //食物的x,y轴位置
+
+        // 蛇的长度
+        var snakes = new Array();
+        var timer = null;
+        var score = 0;
+        var speed = 200; //默认初始速度
+        // 添加地图布局
+        var allCols = new Array();
+        for (var i = 0; i < nRow; i++) {
+            var row = document.createElement('div');
+            row.className = 'row';
+
+            var aRow = new Array();
+            for (var j = 0; j < nCol; j++) {
+                var col = document.createElement('div');
+                col.className = 'col';
+
+                row.appendChild(col)
+
+                aRow[j] = col; //添加col到数组中
+            };
+
+            // 把所有row的col 添加到数组中
+            allCols[i] = aRow;
+            map.appendChild(row);
+            // alert(map.offsetWidth);
+        };
+
+         //循环蛇的长度
+         for(var k=0;k<g;k++){
+            allCols[0][k].className="col active";
+         	snakes[k]=allCols[0][k];
+         } 
+
+         // 第一个蛇隐藏
+        function firstHide(obj) {
+            obj[0].className = 'col';
+        }
+
+
+
+        // 最后一个蛇，往前挪动
+        function lastShow(obj) {
+            obj[obj.length - 1].className = 'col active';
+        }
+
+         //控制键盘方向
+         var dir="right";
+         var oldDir=dir;
+         var fa = false;
+         document.onkeydown=function(ev){
+         	var ev=ev||event;
+         	oldDir=dir;
+         	dir = ev.keyCode;
+
+         	//排除所有非方向键
+         	if(dir>40||dir<37){
+         		dir=oldDir;
+         	}
+
+         	//排除向反方向。如果正在向下运动则向上无效，如果正在向左运动则向右无效。
+         	if(dir==37&&oldDir=="right"){
+         		dir="right";
+         	}
+         	if(dir==38&&oldDir=="bottom"){
+         		dir="bottom";
+         	}
+         	if(dir==39&&oldDir=="left"){
+         		dir="left";
+         	}
+         	if(dir==40&&oldDir=="top"){
+         		dir="top";
+         	}
+
+         	// 正常行走
+            if (dir == 39) {
+                dir = 'right';
+            } else if (dir == 38) {
+                dir = 'top';
+
+            } else if (dir == 37) {
+                dir = 'left';
+
+            } else if (dir == 40) {
+                dir = 'bottom';
+            }
+         }
+
+
+
+		// 生成食物坐标
+        function food() {
+            foodX = Math.floor(Math.random() * nRow) //食物在哪一行
+            foodY = Math.floor(Math.random() * nCol) //食物在哪一列
+
+            // 排除在自己身上
+            if (allCols[foodX][foodY].className == 'col active') {
+                food();
+            } else {
+                allCols[foodX][foodY].className = 'col active';
+            };
+
+        };
+
+
+        food();
+
+
+
+         //蛇吃到虫子新增长度
+         function addSnake() {
+           snakes[snakes.length] = allCols[foodX][foodY];
+            g += 1;
+            score += 1;
+
+            if (speed == 100) {
+                speed -= 10
+            } else if (speed == 50) {
+                speed -= 5
+            } else {
+                speed -= 20;
+            };
+
+            document.getElementById('score').innerHTML = score;
+            food();
+        }
+
+         // 游戏结束
+        function gameOver() {
+            alert('游戏结束！');
+            clearTimeout(timer);
+        };
+
+       // 检测是否碰到自身
+        function checkMe(arr) {
+            var bflag = true;
+
+            for (var i = 0; i < snakes.length; i++) {
+                if (snakes[i] == arr) {
+                    bflag = false;
+                };
+            };
+
+            return bflag;
+        };
+
+        //游戏开始
+        function start(){
+        	switch(dir){
+
+        		//向左运动
+        		case 'left':
+        		//是否撞到左边
+        		if(y-1>=0){
+        			//是否吃到自身
+        			if(checkMe(allCols[x][y-1])){
+        				//蛇尾隐藏
+        				firstHide(snakes);
+
+        				if(x==foodX&&y-1==foodY){
+        					addSnake();
+        				}else {
+                                for (var i = 0; i < snakes.length - 1; i++) {
+                                    snakes[i] = snakes[i + 1]
+                                };
+                                snakes[g - 1] = allCols[x][y - 1];
+                            };
+
+                        //新蛇显示
+                        lastShow(snakes);    
+        			    y -= 1;
+
+                            timer = setTimeout(start, speed);
+
+                        } else {
+                            gameOver();
+
+                        };
+
+
+                    } else {
+                        gameOver();
+                    };
+
+                    break;
+
+
+                    
+                    //向上运动
+                    case 'top':
+                    //是否撞到左边
+	        		if(x-1>=0){
+	        			//是否吃到自身
+	        			if(checkMe(allCols[x-1][y])){
+	        				//蛇尾隐藏
+	        				firstHide(snakes);
+
+	        				if(x-1==foodX&&y==foodY){
+	        					addSnake();
+	        				}else {
+	                                for (var i = 0; i < snakes.length - 1; i++) {
+	                                    snakes[i] = snakes[i + 1]
+	                                };
+	                                snakes[g - 1] = allCols[x-1][y];
+	                            };
+
+	                        //新蛇显示
+	                        lastShow(snakes);    
+	        			    x -= 1;
+
+	                            timer = setTimeout(start, speed);
+
+	                        } else {
+	                            gameOver();
+
+	                        };
+
+
+	                    } else {
+	                        gameOver();
+	                    };
+
+	                    break;
+
+
+
+	                    //向右运动
+	                    case 'right':
+		        		//是否撞到左边
+		        		if(y+1<nCol){
+		        			//是否吃到自身
+		        			if(checkMe(allCols[x][y+1])){
+		        				//蛇尾隐藏
+		        				firstHide(snakes);
+
+		        				if(x==foodX&&y+1==foodY){
+		        					addSnake();
+		        				}else {
+		                                for (var i = 0; i < snakes.length - 1; i++) {
+		                                    snakes[i] = snakes[i + 1]
+		                                };
+		                                snakes[g - 1] = allCols[x][y + 1];
+		                            };
+
+		                        //新蛇显示
+		                        lastShow(snakes);    
+		        			    y += 1;
+
+		                            timer = setTimeout(start, speed);
+
+		                        } else {
+		                            gameOver();
+
+		                        };
+
+
+		                    } else {
+		                        gameOver();
+		                    };
+
+		                    break;
+
+
+
+		                    //向下运动
+		                    case 'bottom':
+			        		//是否撞到左边
+			        		if(x+1<nRow){
+			        			//是否吃到自身
+			        			if(checkMe(allCols[x+1][y])){
+			        				//蛇尾隐藏
+			        				firstHide(snakes);
+
+			        				if(x+1==foodX&&y==foodY){
+			        					addSnake();
+			        				}else {
+			                                for (var i = 0; i < snakes.length - 1; i++) {
+			                                    snakes[i] = snakes[i + 1]
+			                                };
+			                                snakes[g - 1] = allCols[x+1][y];
+			                            };
+
+			                        //新蛇显示
+			                        lastShow(snakes);    
+			        			    x += 1;
+
+			                            timer = setTimeout(start, speed);
+
+			                        } else {
+			                            gameOver();
+
+			                        };
+
+
+			                    } else {
+			                        gameOver();
+			                    };
+
+			                    break;
+
+        	} 
+        }
+
+
+        oStart.onclick = function() {
+            start();
+        };
+
+
+	</script>
+</body>
+</html>

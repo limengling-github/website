@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style type="text/css">
+		*{
+			margin: 0;
+			padding: 0;
+			/*box-sizing: border-box;*/
+		}
+		/*.container{
+			width: 1000px;
+			height: 1000px;
+			margin: 20px auto;
+			position: relative;
+			/*border: 1px solid #000;*/
+		/*}*/
+		.content{
+			width: 642px;
+			height: 642px;
+			margin: 20px auto;
+			/*border: 1px solid red;*/
+			/*position: absolute;
+			top: 0;
+			left: 0;*/
+			overflow: hidden;
+			background-color: #808080;
+			/*box-sizing: border-box;*/
+			/*padding: 20px;*/
+		}
+		#canvas{
+			margin:0px auto;
+			/*width: 640px;
+			height: 640px;*/
+			/*padding: 20px;*/
+			/*border:1px solid red;*/
+			display: block;
+			z-index: 2;
+			/*box-sizing: border-box;*/
+
+		}
+		.side1{
+			width: 200px;
+			height: 30px;
+			position: fixed;
+			top: 20px;
+			right: 20px;
+		}
+		.side2{
+			width: 200px;
+			height: 30px;
+			position: fixed;
+			top: 500px;
+			right: 100px;
+		}
+		.span1{
+			float: left;
+		}
+		.span2{
+			background-color: blue; 
+		}
+		span{
+			/*float: left;*/
+			margin-right: 8px;
+			display: block;
+			width: 60px;
+			height: 30px;
+			background-color: #000;
+			text-align: center;
+			line-height: 30px;
+			color: #fff;
+			border-radius: 10px;
+			cursor: pointer;
+			opacity: 0.7;
+		}
+		span:hover{
+			opacity: 1;
+		}
+		p{
+			font-weight: bold;
+			font-style: italic;
+			font-size: 20px;
+			margin-bottom: 10px;
+		}
+	</style>
+</head>
+<!-- <body>
+<div class="container"> -->
+	<div class="content">
+		<canvas id="canvas" width="640" height="640">
+			您的浏览器不支持canvas
+		</canvas>
+	</div>
+	<div class="side1">
+	<p>请选择：</p><span class="span1">黑子</span><span class="span1">白子</span>
+	</div>
+	<div class="side2">
+	<span class="span2">重置</span>
+	</div>
+<!-- </div> -->
+<script type="text/javascript">
+	//定义棋盘,每个角
+	var maps = new Array(16);
+	var len = maps.length;
+	// alert(len)
+	for(var i=0;i<len;i++){
+		maps[i] = new Array();
+		for(var j = 0;j<len;j++){
+			maps[i][j] = 0;
+			// console.log(maps[i][j]);
+		}
+	}
+
+	//定义棋盘,每个方格
+	var can = document.getElementById('canvas');
+	var ctx = can.getContext("2d");  //获取该canvas的2D绘图环境对象
+	ctx.strokeStyle = "#333";
+	// ctx.strokeRect(20,20,40,40);
+	for(var m=0;m<len-1;m++){
+		for(var n=0;n<len-1;n++){
+			ctx.strokeRect(m*40+20,n*40+20,40,40);  //绘制40的小正方形
+		}
+	}
+
+	//定义棋子
+	var black=new Image();
+	var white=new Image();
+	black.src="picture/black.png";
+	white.src="picture/white.png";
+
+	var spans=document.getElementsByTagName("span");
+	var isBlack;
+	
+		for(var q=0;q<2;q++){
+			spans[q].style.opacity=0.7
+		}
+		spans[0].onclick=function(){
+			for(var q=0;q<spans.length;q++){
+			spans[q].style.opacity=0.7
+		    }
+			isBlack=true;
+			this.style.opacity=1;
+			start();
+		}
+		spans[1].onclick=function(){
+			for(var q=0;q<spans.length;q++){
+			spans[q].style.opacity=0.7
+		    }
+			this.style.opacity=1;
+			isBlack=false;
+			start();
+		}
+
+
+	// can.onclick=play(e);
+	function start(){
+		can.onclick=function play(e){
+			//获取棋盘偏移量
+			var left=this.offsetLeft+20;
+			// alert(this.offsetLeft);
+			var top=this.offsetTop+20;
+			//获取点击位置的坐标
+			var x=e.clientX-left;
+			// alert(x);
+			var y=e.clientY-top;
+			var row,col,index=0;
+	
+			col=x%40<20?parseInt(x/40):parseInt(x/40)+1;
+			row = y%40<20 ? parseInt(y/40) : parseInt(y/40)+1;
+	
+			if(isBlack){
+				ctx.drawImage(black,col*40,row*40);
+				isBlack=false;
+				maps[row][col]=1;//下黑子为1
+				isSucceed(1,row,col);
+			}
+			else{
+				ctx.drawImage(white,col*40,row*40);
+				isBlack=true;
+				maps[row][col]=2;//下白子为1
+				isSucceed(2,row,col);
+			}
+	
+	
+			function isSucceed(all,row,col){
+				function reset(){
+					 orow = row;
+					 ocol = col;
+					 total = 1;
+				}
+				var total,orow,ocol;
+				reset();
+	            //判断每行能否形成五个
+				while(col>0 &&maps[row][col-1]==all){  //左边还有
+					total++;
+					col--;
+					
+				};
+				row=orow;
+				col=ocol;
+				while(col+1<16 &&maps[row][col+1]==all){  //右边还有
+					total++;
+					col++;
+					
+				};
+				win();
+	            reset();
+				// win();
+	
+				//判断每列能否形成五个
+				while(row>0 &&maps[row-1][col]==all){  //上边还有
+					total++;
+					row--;
+					
+				};
+				row=orow;
+				col=ocol;
+				while(row+1<16 &&maps[row+1][col]==all){  //下边还有
+					total++;
+					row++;
+					
+				};
+				win();
+	            reset();
+				// win();
+	
+				//判断左上右下能否形成五个
+				while(col>0 &&row>0&&maps[row-1][col-1]==all){  //左上还有
+					total++;
+					col--;
+					row--;
+					
+				};
+				row=orow;
+				col=ocol;
+				while(col+1<16&&row+1<16&&maps[row+1][col+1]==all){  //右下还有
+					total++;
+					col++;
+					row++;
+					
+				};
+				win();
+	            reset();
+				// win();
+	
+				//判断右上左下能否形成五个
+				while(row>0 &&col+1<16&&maps[row-1][col+1]==all){  //右上还有
+					total++;
+					col++;
+					row--;
+					
+				};
+				row=orow;
+				col=ocol;
+				while(col>0 &&row+1<16&&maps[row+1][col-1]==all){  //左下还有
+					total++;
+					col--;
+					row++;
+					
+				};
+	            // reset();
+				win();
+	
+	
+				function win(){
+					if(total>=5){
+						if(all==1){
+							alert("黑子赢");
+						}
+						else{
+							alert("白子赢");
+						}
+					}
+				}
+	
+	
+			}
+	
+		}
+	}
+	spans[2].onclick=function()
+{
+	this.style.opacity=1;
+window.location.reload();
+}
+
+</script>
+</body>
+</html>

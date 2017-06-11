@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<script src="http://cdn.static.runoob.com/libs/jquery/1.10.2/jquery.min.js"></script>
+	<script type="text/javascript" src="js/js1.js"></script>
+	<link rel="stylesheet" type="text/css" href="css/reset.css">
+	<link rel="stylesheet" type="text/css" href="css/index.css">
+</head>
+<body>
+    <div class="container" id="container">
+		<div class="header">
+			<div class="photo" id="localImg"><img src="imgs/pic1.jpg" id="preview"></div>
+			<ul class="sign" id="sign">
+				<li href="index.html">首页</li>
+				<li href="sign.html">登录</li>
+				<li href="sign.html">我的</li>
+				<li class="slide" id="slide"></li>
+			</ul>
+			<div class="mood">
+				<div class="bottons" id="buttons">
+					<a class="happy-button" class="button">:)</a>
+					<a class="normal-button" class="button">:|</a>
+					<a class="angry-button" class="button">:(</a>
+					<div class="mood-bg" id="mood-bg"></div>
+				</div>
+				<div class="face">
+					<div class="eyes">
+						<div class="eye"></div>
+						<div class="eye"></div>
+					</div>
+					<div class="mouth"></div>
+				</div>
+			</div>
+		</div>
+		<div class="main" id="main">
+			<div class="page1 page">
+			    <!-- //向前向后按钮 -->
+				<div class="prev-btn"></div>
+				<div class="next-btn"></div>
+				<!-- 轮播的内容 -->
+				<div class="panel" data-slide="1">
+					<div class="layer" id="layer-1"></div>
+					<div class="section">
+						<div class="section-content">
+							<p>The journey I'm walking on alone is lonely and dangerous！</p>
+						</div>
+					</div>
+				</div>
+
+				<div class="panel" data-slide="2">
+					<div class="layer" id="layer-1"></div>
+					<div class="section">
+						<div class="section-content">
+							<p>I love the way of rain drops falling on the leaves because that is the way you loved me！</p>
+						</div>
+					</div>
+				</div>
+
+				<div class="panel" data-slide="3">
+					<div class="layer" id="layer-1"></div>
+					<div class="section">
+						<div class="section-content">
+							<p>Life isn't about waiting for the storm to pass, it's about learning to dance in the rain！</p>
+						</div>
+					</div>
+				</div>
+
+				<div class="panel" data-slide="4">
+					<div class="layer" id="layer-1"></div>
+					<div class="section">
+						<div class="section-content">
+							<p>I love three things in this world. Sun, moon and you. Sun for morning, moon for night , and you forever！</p>
+						</div>
+					</div>
+				</div>
+
+			</div>
+			<div class="page2 flex-c-c page">
+				<form action="" method="" class="flex-c-c">
+				    <ul class="select__list">
+				      <li id="js-usr-rtn" class="select__label  select__label--active">Sign in</li>
+				      <li id="js-usr-new" class="select__label">Sign up</li>
+				      <li id="js-usr-rst" class="select__label">Reset</li>
+				    </ul>
+				    <span class="pointer"></span>
+				    <input type="email" placeholder="email" class="ui-field" id="js-field__email" />
+				    <input type="password" placeholder="password" class="ui-field" id="js-field__pass" />
+				    <input type="password" placeholder="repeat password" class="ui-field" id="js-field__r-pass" />
+				    <button id="js-btn" class="ui-button --usr-new"></button>
+	           </form>
+			</div>
+			<div class="page3 page">
+				<div class="note">
+					<div class="note-title">
+						<div class="note-title-content">
+							<h3>THINGS TO DO</h3>
+						</div>
+						<div class="note-title-button" id="note-title-button">展开</div>
+					</div>
+
+					<div class="content-new" id="content-new">
+							<form name="form1">
+								<select name=year onchange="changeYear(this.value)">  
+									<option value="">年</option>  
+							    </select>  
+								<select name=month>  
+									<option value="">月</option>  
+								</select>  
+								<select name=date>  
+									<option value="">日</option>  
+							    </select>
+							</form>
+	                        <table class="table" style="border-collapse:separate; border-spacing:0px 10px;">
+								<tr>
+									<th>事件</th>
+									<th>标题</th>
+								</tr>
+								<tr>
+									<td>
+										<select id="action">
+											<option value="学习">学习</option>
+											<option value="购物">购物</option>
+											<option value="运动">运动</option>
+										</select>
+									</td>
+									<td class="title">
+										<input type="text" id="input-title" class="input_title_desc" style="color: gray;font-size: 14px;" />
+									</td>	
+								</tr>
+
+								<tr>
+									<th>事件描述</th>
+								</tr>
+								<tr>
+									<td colspan="3" class="description">
+										<input type="text" class="input_description" id="input-description" required style="color: gray;font-size: 14px;" />
+									</td>
+								</tr>
+
+								<tr>
+									<td class="add" id="content-add">
+										add
+									</td>
+								</tr>
+							</table>
+					</div>
+
+					<div class="content-lists">
+						<ul id="list">
+						    <li class="list-shopping num-1" id="list-shopping">
+
+								<div class="col-list-1">
+									购物
+								</div>
+
+								<div class="col-list-2">
+									<h4>买衣服</h4>
+									<p>记得去买衣服哦！</p>
+								</div>
+
+								<div class="col-list-3">
+									
+									<div class="cont_text_date" id="cont_text_date">
+										2017-4-22
+									</div>
+						        </div>
+
+							</li>
+						</ul>
+					</div>
+
+				</div>
+
+				<div class="edit" id="edit">
+					<input type="file" name="doc" id="doc" onchange="javascript:setImagePreview();">更换头像
+				</div>
+
+			</div>
+		</div>
+	</div>
+	<script type="text/javascript">
+		// 表情变化
+		$(function(){
+			$(".happy-button").click(function(){
+				$(".eye").eq(1).css({
+					"transform":"rotateX(60deg)",
+				})
+				$(".eye").css({
+					"border-radius": "50%"
+				})
+				$(".mouth").css({
+					"height":"30px",
+					"borderTopLeftRadius": "0",
+			        "borderTopRightRadius": "0",
+			        "borderBottomLeftRadius": "100px",
+			        "borderBottomRightRadius": "100px",
+				})
+			})
+
+			$(".normal-button").click(function(){
+				$(".mouth").css({
+					"height":"20px",
+					"borderRadius":"10px"
+				})
+				$(".eye").css({
+					"border-radius": "50%"
+				})
+			})
+
+			$(".angry-button").click(function(){
+				$(".eye").css({
+
+					"borderBottomLeftRadius": "0px",
+			        "borderBottomRightRadius": "0px",
+			        "borderTopLeftRadius": "50%",
+			        "borderTopRightRadius": "50%",
+				})
+				$(".eye").eq(0).css({
+			        	"transform":"rotateZ(30deg)",
+			        })
+				$(".eye").eq(1).css({
+			        	"transform":"rotateZ(-30deg)",
+			        })
+				$(".mouth").css({
+					"height":"20px",
+					"borderRadius":"10px"
+				})
+			})
+
+		})
+
+		//主页轮播
+	  $('.page1').each(function() {
+	  var $slider = $(this);
+	  var numberOfSlides = $slider.find('.panel').length;
+
+	  $slider.find('.panel:eq(0)').addClass('_active');
+
+	  var $activeSlide = $slider.find('.panel._active');
+	  var $nextBtn = $slider.find('.next-btn');
+	  var $prevBtn = $slider.find('.prev-btn');
+
+
+	  $slider.on('slide.changed', function() {
+	    console.log('slide changed !');
+	    var index=$('.panel._active').data('slide');
+	  });
+
+	  $nextBtn.on('click', function(event) {
+	    nextSlide();
+	  });
+
+	  $prevBtn.on('click', function(event) {
+	    prevSlide();
+	  });
+
+	  function nextSlide() {
+	    $activeSlide = $slider.find('.panel._active');
+	    var $nextSlide = $activeSlide.next('.panel');
+	    $activeSlide.removeClass('_active');
+	    $nextSlide.addClass('_active');
+
+	    var slideIndex = $slider.find('.panel._active').index('.panel');
+	    console.log(slideIndex);
+
+	    if (slideIndex >= numberOfSlides || slideIndex <= -1) {
+	      firstSlide();
+	      $slider.trigger('slide.changed');
+
+	    } else {
+	      $slider.trigger('slide.changed');
+	    }
+
+	  }
+
+	  function prevSlide() {
+	    $activeSlide = $slider.find('.panel._active');
+
+	    var $prevSlide = $activeSlide.prev('.panel');
+	    //console.log($prevSlide);
+	    $activeSlide.removeClass('_active');
+	    $prevSlide.addClass('_active');
+	    //$activeSlide = $prevSlide;
+
+	    var slideIndex = $slider.find('.panel._active').index();
+	    console.log(slideIndex);
+
+	    if (typeof $prevSlide === 'undefined' || $prevSlide === null || $prevSlide.length == -1 || slideIndex <= -1) {
+	      lastSlide();
+	      $slider.trigger('slide.changed');
+	    } else {
+	      $slider.trigger('slide.changed');
+	    }
+
+	  }
+
+	  function firstSlide() {
+	    $('.panel._active').removeClass('_active');
+	    $slider.find('.panel:eq(0)').addClass('_active');
+	    $activeSlide = $slider.find('.panel:eq(0)');
+
+	  }
+
+	  function lastSlide() {
+	    //console.log('last');
+	    $('.panel._active').removeClass('_active');
+	    $slider.find('.panel').eq(numberOfSlides - 1).addClass('_active');
+	  }
+
+	  function goToSlide(slideToGo) {
+	    $('.panel._active').removeClass('_active');
+	    $slider.find('.panel').eq(slideToGo - 1).addClass('_active');
+	    $activeSlide = $slider.find('.panel').eq(slideToGo - 1).addClass('_active');
+	    $slider.trigger('slide.changed');
+	  }
+
+	})
+ //登录注册
+ $('.select__label').click(function() {
+  $('.select__label').removeClass('select__label--active');
+  $(this).addClass('select__label--active');
+});
+
+$('#js-usr-rtn').click(function() {
+  $('#js-btn, .pointer, #js-field__pass').removeClass('--usr-new --usr-rst ui-field--hidden');
+  $('#js-btn, .pointer').addClass('--usr-rtn');
+  $('#js-field__r-pass').addClass('ui-field--hidden');
+});
+$('#js-usr-new').click(function() {
+  $('#js-btn, .pointer, #js-field__r-pass, #js-field__pass').removeClass('--usr-rtn --usr-rst ui-field--hidden');
+  $('#js-btn').addClass('--usr-new');
+});
+$('#js-usr-rst').click(function() {
+  $('#js-btn, .pointer').removeClass('--usr-rtn --usr-new');
+  $('#js-btn, .pointer').addClass('--usr-rst');
+  $('#js-field__r-pass, #js-field__pass').addClass('ui-field--hidden');
+});
+</script>
+</body>
+</html>
